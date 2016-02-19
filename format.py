@@ -21,7 +21,7 @@ def main():
 	if args.f:
 		verified = checkFileName(args.f)
 		if verified:
-			print("File has been verified, rewritting emails")
+			print("File has been verified, rewritting json")
 			## Begin formatting ##
 			depth = 0
 			fileO = open(args.f,"r")
@@ -60,6 +60,9 @@ def main():
 					else:
 						fileOut.write(character)
 					index += 1
+			fileO.close()
+			fileOut.close()
+			print("File wrote to "+args.f[0:-5]+"-formatted.json")
 	else:
 		print("ERROR: You need to specify a file name")
 
