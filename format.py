@@ -37,7 +37,7 @@ def main():
 				for character in line:
 					if character=="{":
 						if depth==0:
-							fileOut.write(character)
+							fileOut.write("\t"*depth+character)
 						else:
 							fileOut.write("\n")
 							fileOut.write("\t"*depth+character)
@@ -47,7 +47,7 @@ def main():
 						fileOut.write("\n")
 					elif character=="}":
 						depth -= 1
-						fileOut.write(character)
+						fileOut.write("\n"+"\t"*depth+character)
 					elif character=="\"":
 						if depth==0:
 							fileOut.write(character)
@@ -55,7 +55,7 @@ def main():
 							if line[index+1]==":":
 								fileOut.write(character)
 							elif line[index-1]=="{":
-								fileOut.write(character)
+								fileOut.write("\n"+("\t"*depth)+character)
 							elif line[index+1]==",":
 								fileOut.write(character)
 							elif line[index+1]=="}":
