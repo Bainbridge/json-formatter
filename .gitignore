@@ -1,1 +1,4 @@
 *.json
+.vs/
+*.pyproj
+*.sln
