@@ -29,7 +29,7 @@ def main():
 			with open(args.f, "r") as jsonFile:
 				data = json.load(jsonFile)
 				with open(formatFileName,"w") as fileOut:
-					fileOut.write(json.dumps(data, indent=4, sort_keys=True))
+					fileOut.write(json.dumps(data, indent=4, sort_keys=False))
 			print("File wrote to "+formatFileName+"")
 	else:
 		print("ERROR: You need to specify a file name")
