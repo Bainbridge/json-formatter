@@ -1,8 +1,8 @@
 """
 Title: JSON-Formatter
-Author: Cortlan Bainbridge (bainbric@uni.edu)
-Version: 1.0
-Description:  Makes JSONs more human readable (adds whitespacing with depth)
+Author: Cortlan Bainbridge (cortlan.bainbridge@gmail.com)
+Version: 1.1
+Description:  Makes JSONs more human readable
 """
 import json
 import sys
@@ -16,9 +16,6 @@ parser.add_argument('-f', action="store",required=False,help="Specifiy a file na
 parser.add_argument('-c', action="store_true",required=False,help="Cleans the directory of all formatted JSONs")
 args = parser.parse_args()
 
-TAB = "\t"
-NL = "\n"
-
 def main():
 	if args.c:
 		cleanDirectory()
@@ -28,46 +25,12 @@ def main():
 		if verified:
 			print("File has been verified, rewritting json")
 			## Begin formatting ##
-			depth = 0
-			fileO = open(args.f,"r")
-			fileOut = open(args.f[0:-5]+"-formatted.json","w")
-			fileContents = fileO.readlines()
-			for line in fileContents:
-				index = 0
-				for character in line:
-					if character=="{":
-						if depth==0:
-							fileOut.write("\t"*depth+character)
-						else:
-							fileOut.write("\n")
-							fileOut.write("\t"*depth+character)
-						depth += 1
-					elif character==",":
-						fileOut.write(character)
-						fileOut.write("\n")
-					elif character=="}":
-						depth -= 1
-						fileOut.write("\n"+"\t"*depth+character)
-					elif character=="\"":
-						if depth==0:
-							fileOut.write(character)
-						else:
-							if line[index+1]==":":
-								fileOut.write(character)
-							elif line[index-1]=="{":
-								fileOut.write("\n"+("\t"*depth)+character)
-							elif line[index+1]==",":
-								fileOut.write(character)
-							elif line[index+1]=="}":
-								fileOut.write(character)
-							else:
-								fileOut.write("\t"*depth+character)						
-					else:
-						fileOut.write(character)
-					index += 1
-			fileO.close()
-			fileOut.close()
-			print("File wrote to "+args.f[0:-5]+"-formatted.json")
+			formatFileName = args.f[0:-5]+"-formatted.json"
+			with open(args.f, "r") as jsonFile:
+				data = json.load(jsonFile)
+				with open(formatFileName,"w") as fileOut:
+					fileOut.write(json.dumps(data, indent=4, sort_keys=True))
+			print("File wrote to "+formatFileName+"-formatted.json")
 	else:
 		print("ERROR: You need to specify a file name")
 
